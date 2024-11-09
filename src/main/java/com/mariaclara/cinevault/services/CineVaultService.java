@@ -19,6 +19,9 @@ public class CineVaultService {
         return cineVaultClient.trendingAll();
     }
 
+    public MediaCollectionResponse popularMedia(String media) {
+        return cineVaultClient.popularMedia(media);
+    }
     public MediaCollectionResponse searchMedia(SearchMediaRequest request) {
         return cineVaultClient.searchMedia(request.media(), request.mediaName(), request.year());
     }

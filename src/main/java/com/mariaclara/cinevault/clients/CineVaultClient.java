@@ -19,6 +19,9 @@ public interface CineVaultClient {
     @GetMapping("/trending/movie/week")
     MediaCollectionResponse trendingAll();
 
+    @GetMapping("/discover/{media}")
+    MediaCollectionResponse popularMedia(@RequestParam String media);
+
     @GetMapping("/search/{media}")
     MediaCollectionResponse searchMedia(
             @RequestParam(value = "media") String media,
