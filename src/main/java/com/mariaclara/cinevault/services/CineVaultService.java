@@ -1,6 +1,7 @@
 package com.mariaclara.cinevault.services;
 
 import com.mariaclara.cinevault.clients.CineVaultClient;
+import com.mariaclara.cinevault.clients.requests.SearchMediaRequest;
 import com.mariaclara.cinevault.clients.responses.MediaCollectionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,5 +17,9 @@ public class CineVaultService {
 
     public MediaCollectionResponse trendingAll() {
         return cineVaultClient.trendingAll();
+    }
+
+    public MediaCollectionResponse searchMedia(SearchMediaRequest request) {
+        return cineVaultClient.searchMedia(request.media(), request.mediaName(), request.year());
     }
 }
