@@ -10,19 +10,13 @@ import lombok.*;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-public class WishList {
+public class WishList extends GeneralAttributes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long media_id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    public WishList(Long media_id, User user) {
-        this.media_id = media_id;
-        this.user = user;
+    public WishList(Integer media_id, User user, String mediaType) {
+        super(media_id, user, mediaType);
     }
 }

@@ -10,19 +10,18 @@ import lombok.*;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-public class Review {
+public class Review extends GeneralAttributes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private int rating;
+
+    @Column(nullable = false)
+    private Double rating;
     private String comment;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    public Review(int rating, String comment) {
+    public Review(Double rating, String comment, Integer mediaId, String mediaType, User user) {
+        super(mediaId, user, mediaType);
         this.rating = rating;
         this.comment = comment;
     }

@@ -10,19 +10,13 @@ import lombok.*;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-public class Favorite {
+public class Favorite extends GeneralAttributes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long media_id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    public Favorite(Long media_id, User user) {
-        this.media_id = media_id;
-        this.user = user;
+    public Favorite(Integer media_id, User user, String mediaType) {
+        super(media_id, user, mediaType);
     }
 }
