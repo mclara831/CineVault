@@ -47,7 +47,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(new LoginResponse(token, expirationTime));
     }
 
-    @Operation(summary = "Remove filmes/séries da lista de desejos do usuários", method = "GET")
+    @Operation(summary = "Remove filmes/séries da lista de desejos do usuários (ADMIN OU BASIC)", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso!"),
             @ApiResponse(responseCode = "401", description = "Campos preenchidos incorretamente!")
