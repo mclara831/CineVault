@@ -1,4 +1,4 @@
-package com.mariaclara.cinevault.clients.responses;
+package com.mariaclara.cinevault.DTOs.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,10 +8,13 @@ import lombok.Setter;
 import java.util.List;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 public class MediaCollectionResponse {
 
     private List<MediaResponse> results;
+
+    public MediaCollectionResponse(List<MediaResponse> results) {
+        this.results = results;
+    }
 }

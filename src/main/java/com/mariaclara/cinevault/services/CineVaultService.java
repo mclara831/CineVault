@@ -1,13 +1,14 @@
 package com.mariaclara.cinevault.services;
 
+import com.mariaclara.cinevault.DTOs.responses.MediaResponse;
 import com.mariaclara.cinevault.clients.CineVaultClient;
-import com.mariaclara.cinevault.clients.requests.SearchMediaRequest;
-import com.mariaclara.cinevault.clients.responses.MediaCollectionResponse;
+import com.mariaclara.cinevault.DTOs.requests.SearchMediaRequest;
+import com.mariaclara.cinevault.DTOs.responses.MediaCollectionResponse;
+import com.mariaclara.cinevault.entities.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CineVaultService {
@@ -19,10 +20,18 @@ public class CineVaultService {
         return cineVaultClient.trendingAll();
     }
 
-    public MediaCollectionResponse popularMedia(String media) {
-        return cineVaultClient.popularMedia(media);
+    public MediaCollectionResponse popularMedia(String mediaType) {
+        var results = cineVaultClient.popularMedia(mediaType);
+        results.getResults().stream().peek(mediaResponse -> mediaResponse.setMediaType(mediaType))
+                .collect(Collectors.toList());
+        return results;
     }
+
     public MediaCollectionResponse searchMedia(SearchMediaRequest request) {
-        return cineVaultClient.searchMedia(request.media(), request.mediaName(), request.year());
+        var results =  cineVaultClient.searchMedia(request.media(), request.mediaName(), request.year());
+        String mediaType = request.media().equals(MediaType.MOVIE.toString()) ? MediaType.MOVIE.toString(): MediaType.TV.toString();
+        results.getResults().stream().peek(mediaResponse -> mediaResponse.setMediaType(mediaType))
+                .collect(Collectors.toList());
+        return results;
     }
 }

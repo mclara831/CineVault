@@ -1,4 +1,4 @@
-package com.mariaclara.cinevault.clients.requests;
+package com.mariaclara.cinevault.DTOs.requests;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
