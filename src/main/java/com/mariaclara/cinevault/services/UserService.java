@@ -27,6 +27,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -66,6 +67,10 @@ public class UserService {
 
         if (user.isPresent()) {
             throw new BadCredentialsException("Username already in use!");
+        }
+
+    if (!(data.roles().getName().equalsIgnoreCase("admin")|| (data.roles().getName().equalsIgnoreCase("basic")))) {
+            throw new BadCredentialsException("The role given is invalid!");
         }
 
         String encodedPassword = passwordEncoder.encode(data.password());
@@ -295,7 +300,7 @@ public class UserService {
                 media = cineVaultClient.getSeriesById(mediaId);
                 media.setMediaType(MediaType.TV.getMediaType());
             }
-            return new ReviewResponse(media, review.getRating(), review.getComment());
+            return new ReviewResponse(media, review.getRating(), review.getComment(), LocalDateTime.now());
         } else {
             throw new ResourceAlreadyExistsException("This resource already exists in the repository!");
         }
@@ -364,7 +369,7 @@ public class UserService {
                             review.getMediaType().equalsIgnoreCase(MediaType.MOVIE.getMediaType()))
                     .map(review -> {
                         mediaResponse.setMediaType(MediaType.MOVIE.getMediaType());
-                        return new ReviewResponse(mediaResponse, review.getRating(), review.getComment());
+                        return new ReviewResponse(mediaResponse, review.getRating(), review.getComment(), LocalDateTime.now());
                     })
                     .forEach(reviews::add);
         });
@@ -375,7 +380,7 @@ public class UserService {
                             review.getMediaType().equalsIgnoreCase(MediaType.TV.getMediaType()))
                     .map(review -> {
                         mediaResponse.setMediaType(MediaType.TV.getMediaType());
-                        return new ReviewResponse(mediaResponse, review.getRating(), review.getComment());
+                        return new ReviewResponse(mediaResponse, review.getRating(), review.getComment(), LocalDateTime.now());
                     })
                     .forEach(reviews::add);
         });

@@ -4,6 +4,7 @@ import com.mariaclara.cinevault.DTOs.requests.ReviewRequest;
 import com.mariaclara.cinevault.DTOs.requests.SearchMediaRequest;
 import com.mariaclara.cinevault.DTOs.responses.MediaAddedResponse;
 import com.mariaclara.cinevault.DTOs.responses.MediaCollectionResponse;
+import com.mariaclara.cinevault.DTOs.responses.RankingResponse;
 import com.mariaclara.cinevault.DTOs.responses.ReviewResponse;
 import com.mariaclara.cinevault.services.CineVaultService;
 import com.mariaclara.cinevault.services.UserService;
@@ -50,6 +51,19 @@ public class CineVaultController {
     @GetMapping("/popular")
     ResponseEntity<MediaCollectionResponse> popular(@RequestParam @NotNull @NotBlank String media) {
         return ResponseEntity.ok(cineVaultService.popularMedia(media));
+    }
+
+    @Operation(summary = "Retorna um ranking das avaliações dos usuários ordenadas em ordem descrescente por nota da avaliação", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ranking retorna com sucesso!"),
+            @ApiResponse(responseCode = "401", description = "Token inválido!"),
+            @ApiResponse(responseCode = "405", description = "Recurso não encontrado!"),
+            @ApiResponse(responseCode = "500", description = "Erro ao realizar o upload de mídias para retornar o ranking !")
+    })
+    @GetMapping("/review/ranking")
+    ResponseEntity<List<RankingResponse>> weeklyRanking() {
+        var results = cineVaultService.getWeeklyRanking();
+        return ResponseEntity.ok().body(results);
     }
 
     @Operation(summary = "Busca as filmes/séries por nome", method = "GET")
@@ -274,7 +288,7 @@ public class CineVaultController {
                                                @PathVariable Integer mediaId,
                                                @RequestParam String mediaType) {
         userService.deleteReview(mediaId, token, mediaType);
-        return  ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();
     }
 }
 
